@@ -1,10 +1,16 @@
 ﻿import { supabase } from "../config/supabaseClient.js";
 
 export const ProductModel = {
-  async getAll() {
-    const { data, error } = await supabase
+  async getAll(category) {
+    let query = supabase
       .from("products")
-      .select("id, sku, name, description, price, stock, category_id");
+      .select(
+        category
+          ? "id, sku, name, description, price, stock, category_id, categories!inner(name)"
+          : "id, sku, name, description, price, stock, category_id"
+      );
+    if (category) query = query.ilike("categories.name", "%" + category + "%");
+    const { data, error } = await query;
     if (error) throw error;
     return data;
   },

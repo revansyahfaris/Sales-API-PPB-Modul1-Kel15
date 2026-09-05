@@ -3,7 +3,7 @@
 export const ProductController = {
   async getAll(req, res) {
     try {
-      const products = await ProductModel.getAll();
+      const products = await ProductModel.getAll(req.query.category);
       res.json(products);
     } catch (err) {
       res.status(500).json({ error: err.message });
