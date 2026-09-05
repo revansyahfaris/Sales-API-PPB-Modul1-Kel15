@@ -1,4 +1,4 @@
-﻿import express from "express";
+import express from "express";
 import dotenv from "dotenv";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -8,6 +8,8 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+app.get("/", (req, res) => res.json({ status: "ok", endpoints: ["/api/categories", "/api/products", "/api/customers"] }));
 
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
